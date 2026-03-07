@@ -684,7 +684,7 @@ body::after {
 }
 
 /* ===== SECTION COMMON ===== */
-section { position: relative; z-index: 1; padding: 100px 20px; }
+section { position: relative; z-index: 1; padding: 120px 20px; }
 .section-title {
   text-align: center;
   font-size: clamp(1.8rem, 5vw, 2.8rem);
@@ -699,7 +699,7 @@ section { position: relative; z-index: 1; padding: 100px 20px; }
   font-size: 0.75rem;
   color: var(--chrome2);
   letter-spacing: 3px;
-  margin-bottom: 50px;
+  margin-bottom: 60px;
 }
 .container { max-width: 1100px; margin: 0 auto; }
 
@@ -1362,7 +1362,7 @@ section { position: relative; z-index: 1; padding: 100px 20px; }
   .robot-marquee-inner span { font-size: 1.2rem; letter-spacing: 5px; padding: 0 24px; }
 }
 @media (max-width: 480px) {
-  section { padding: 60px 16px; }
+  section { padding: 80px 16px; }
   .event-card { padding: 24px 20px; }
   .helmet { width: 180px; height: 170px; }
   .helmet-dome { width: 180px; height: 170px; border-radius: 90px 90px 70px 70px; }
@@ -1611,7 +1611,8 @@ section { position: relative; z-index: 1; padding: 100px 20px; }
         <input type="hidden" name="_subject" value="New Daft DJ Booking Request!">
         <input type="hidden" name="_captcha" value="false">
         <input type="hidden" name="_template" value="table">
-        <input type="text" name="_honey" style="display:none">
+        <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+        <input type="hidden" name="_next" value="https://punkdaft.dance/#booking">
         <div class="form-row">
           <div class="form-group">
             <label>First Name <span class="req">*</span></label>
@@ -1961,15 +1962,16 @@ form.addEventListener('submit', (e) => {
       body: formData,
       headers: { 'Accept': 'application/json' }
     }).then(res => {
-      document.getElementById('bookingForm').style.display = 'none';
-      const success = document.getElementById('formSuccess');
-      success.classList.add('visible');
-      success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      if (res.ok) {
+        document.getElementById('bookingForm').style.display = 'none';
+        const success = document.getElementById('formSuccess');
+        success.classList.add('visible');
+        success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } else {
+        form.submit();
+      }
     }).catch(() => {
-      document.getElementById('bookingForm').style.display = 'none';
-      const success = document.getElementById('formSuccess');
-      success.classList.add('visible');
-      success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      form.submit();
     });
   }
 });
