@@ -1988,10 +1988,27 @@ form.querySelectorAll('input:not([type="hidden"]), select, textarea').forEach(el
 // ===== ROBOT SOUND ENGINE (Web Audio API) =====
 const SFX = (() => {
   let ctx;
+  let unlocked = false;
+
   const getCtx = () => {
     if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+    if (ctx.state === 'suspended') ctx.resume();
     return ctx;
   };
+
+  // Unlock audio on first user interaction (browser autoplay policy)
+  function unlock() {
+    if (unlocked) return;
+    const c = getCtx();
+    if (c.state === 'suspended') c.resume();
+    // Play a silent buffer to fully unlock on iOS/Safari
+    const buf = c.createBuffer(1, 1, 22050);
+    const src = c.createBufferSource();
+    src.buffer = buf;
+    src.connect(c.destination);
+    src.start(0);
+    unlocked = true;
+  }
 
   // Short electronic blip — nav links, small elements
   function blip() {
@@ -2001,7 +2018,7 @@ const SFX = (() => {
     osc.type = 'square';
     osc.frequency.setValueAtTime(1200, t);
     osc.frequency.exponentialRampToValueAtTime(600, t + 0.08);
-    gain.gain.setValueAtTime(0.06, t);
+    gain.gain.setValueAtTime(0.12, t);
     gain.gain.exponentialRampToValueAtTime(0.001, t + 0.08);
     osc.connect(gain).connect(c.destination);
     osc.start(t); osc.stop(t + 0.08);
@@ -2015,7 +2032,7 @@ const SFX = (() => {
     osc.type = 'sine';
     osc.frequency.setValueAtTime(400, t);
     osc.frequency.exponentialRampToValueAtTime(250, t + 0.12);
-    gain.gain.setValueAtTime(0.08, t);
+    gain.gain.setValueAtTime(0.15, t);
     gain.gain.exponentialRampToValueAtTime(0.001, t + 0.12);
     osc.connect(gain).connect(c.destination);
     osc.start(t); osc.stop(t + 0.12);
@@ -2033,7 +2050,7 @@ const SFX = (() => {
     osc2.type = 'sine';
     osc2.frequency.setValueAtTime(800, t);
     osc2.frequency.exponentialRampToValueAtTime(200, t + 0.15);
-    gain.gain.setValueAtTime(0.04, t);
+    gain.gain.setValueAtTime(0.08, t);
     gain.gain.exponentialRampToValueAtTime(0.001, t + 0.15);
     osc.connect(gain); osc2.connect(gain); gain.connect(c.destination);
     osc.start(t); osc.stop(t + 0.15);
@@ -2049,7 +2066,7 @@ const SFX = (() => {
     osc.frequency.setValueAtTime(300, t);
     osc.frequency.setValueAtTime(500, t + 0.04);
     osc.frequency.setValueAtTime(800, t + 0.08);
-    gain.gain.setValueAtTime(0.05, t);
+    gain.gain.setValueAtTime(0.1, t);
     gain.gain.exponentialRampToValueAtTime(0.001, t + 0.15);
     osc.connect(gain).connect(c.destination);
     osc.start(t); osc.stop(t + 0.15);
@@ -2063,15 +2080,20 @@ const SFX = (() => {
       const gain = c.createGain();
       osc.type = 'square';
       osc.frequency.setValueAtTime(freq, t + i * 0.06);
-      gain.gain.setValueAtTime(0.05, t + i * 0.06);
+      gain.gain.setValueAtTime(0.1, t + i * 0.06);
       gain.gain.exponentialRampToValueAtTime(0.001, t + i * 0.06 + 0.08);
       osc.connect(gain).connect(c.destination);
       osc.start(t + i * 0.06); osc.stop(t + i * 0.06 + 0.08);
     });
   }
 
-  return { blip, boop, whoosh, chirp, powerUp };
+  return { unlock, blip, boop, whoosh, chirp, powerUp };
 })();
+
+// Unlock audio on first click or touch anywhere on the page
+['click', 'touchstart'].forEach(evt => {
+  document.addEventListener(evt, SFX.unlock, { once: true });
+});
 
 // Attach sounds to elements
 document.querySelectorAll('.nav-links a, .footer-links a').forEach(el => {
@@ -2096,15 +2118,6 @@ document.querySelectorAll('.navbar-logo, .helmet').forEach(el => {
 
 document.querySelector('.submit-btn')?.addEventListener('mouseenter', SFX.whoosh);
 document.querySelector('.submit-btn')?.addEventListener('click', SFX.powerUp);
-
-// Resume AudioContext on first user interaction (browser autoplay policy)
-document.addEventListener('click', () => {
-  if (SFX && window.AudioContext) {
-    const c = new AudioContext();
-    if (c.state === 'suspended') c.resume();
-    c.close();
-  }
-}, { once: true });
 </script>
 </body>
 </html>
