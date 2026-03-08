@@ -2115,28 +2115,18 @@ const SFX = (() => {
   document.addEventListener(evt, SFX.unlock, { once: true });
 });
 
-// Attach sounds to elements
-document.querySelectorAll('.nav-links a, .footer-links a').forEach(el => {
-  el.addEventListener('mouseenter', SFX.blip);
-});
+// Attach sounds via event delegation (bulletproof, works even after loader)
+document.addEventListener('mouseenter', (e) => {
+  const el = e.target;
+  if (el.closest('.btn, .btn-primary, .btn-secondary')) return SFX.zap();
+  if (el.closest('.nav-book')) return SFX.zap();
+  if (el.closest('.submit-btn')) return SFX.whoosh();
+  if (el.closest('.event-card')) return SFX.boop();
+  if (el.closest('.stat-badge')) return SFX.boop();
+  if (el.closest('.navbar-logo, .helmet')) return SFX.chirp();
+  if (el.closest('.nav-links a, .footer-links a')) return SFX.blip();
+}, true);
 
-document.querySelectorAll('.btn, .nav-book').forEach(el => {
-  el.addEventListener('mouseenter', SFX.zap);
-});
-
-document.querySelectorAll('.event-card').forEach(el => {
-  el.addEventListener('mouseenter', SFX.boop);
-});
-
-document.querySelectorAll('.stat-badge').forEach(el => {
-  el.addEventListener('mouseenter', SFX.boop);
-});
-
-document.querySelectorAll('.navbar-logo, .helmet').forEach(el => {
-  el.addEventListener('mouseenter', SFX.chirp);
-});
-
-document.querySelector('.submit-btn')?.addEventListener('mouseenter', SFX.whoosh);
 document.querySelector('.submit-btn')?.addEventListener('click', SFX.powerUp);
 </script>
 </body>
