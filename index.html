@@ -1987,14 +1987,30 @@ form.querySelectorAll('input:not([type="hidden"]), select, textarea').forEach(el
 
 // ===== ROBOT SOUND ENGINE (Web Audio API) =====
 const SFX = (() => {
-  let ctx;
+  let ctx, masterGain, compressor;
   let unlocked = false;
 
   const getCtx = () => {
-    if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+    if (!ctx) {
+      ctx = new (window.AudioContext || window.webkitAudioContext)();
+      // Master volume ceiling — keeps sounds quiet no matter the system volume
+      masterGain = ctx.createGain();
+      masterGain.gain.value = 0.3; // 30% max output
+      // Compressor prevents any spikes from clipping
+      compressor = ctx.createDynamicsCompressor();
+      compressor.threshold.value = -30;
+      compressor.knee.value = 20;
+      compressor.ratio.value = 12;
+      compressor.attack.value = 0.003;
+      compressor.release.value = 0.1;
+      masterGain.connect(compressor).connect(ctx.destination);
+    }
     if (ctx.state === 'suspended') ctx.resume();
     return ctx;
   };
+
+  // All sounds route through this instead of ctx.destination
+  const getOutput = () => { getCtx(); return masterGain; };
 
   // Unlock audio on first user interaction (browser autoplay policy)
   function unlock() {
@@ -2020,7 +2036,7 @@ const SFX = (() => {
     osc.frequency.exponentialRampToValueAtTime(600, t + 0.08);
     gain.gain.setValueAtTime(0.12, t);
     gain.gain.exponentialRampToValueAtTime(0.001, t + 0.08);
-    osc.connect(gain).connect(c.destination);
+    osc.connect(gain).connect(getOutput());
     osc.start(t); osc.stop(t + 0.08);
   }
 
@@ -2034,7 +2050,7 @@ const SFX = (() => {
     osc.frequency.exponentialRampToValueAtTime(250, t + 0.12);
     gain.gain.setValueAtTime(0.15, t);
     gain.gain.exponentialRampToValueAtTime(0.001, t + 0.12);
-    osc.connect(gain).connect(c.destination);
+    osc.connect(gain).connect(getOutput());
     osc.start(t); osc.stop(t + 0.12);
   }
 
@@ -2052,7 +2068,7 @@ const SFX = (() => {
     osc2.frequency.exponentialRampToValueAtTime(200, t + 0.15);
     gain.gain.setValueAtTime(0.08, t);
     gain.gain.exponentialRampToValueAtTime(0.001, t + 0.15);
-    osc.connect(gain); osc2.connect(gain); gain.connect(c.destination);
+    osc.connect(gain); osc2.connect(gain); gain.connect(getOutput());
     osc.start(t); osc.stop(t + 0.15);
     osc2.start(t); osc2.stop(t + 0.15);
   }
@@ -2068,7 +2084,7 @@ const SFX = (() => {
     osc.frequency.setValueAtTime(800, t + 0.08);
     gain.gain.setValueAtTime(0.1, t);
     gain.gain.exponentialRampToValueAtTime(0.001, t + 0.15);
-    osc.connect(gain).connect(c.destination);
+    osc.connect(gain).connect(getOutput());
     osc.start(t); osc.stop(t + 0.15);
   }
 
@@ -2082,7 +2098,7 @@ const SFX = (() => {
       osc.frequency.setValueAtTime(freq, t + i * 0.06);
       gain.gain.setValueAtTime(0.1, t + i * 0.06);
       gain.gain.exponentialRampToValueAtTime(0.001, t + i * 0.06 + 0.08);
-      osc.connect(gain).connect(c.destination);
+      osc.connect(gain).connect(getOutput());
       osc.start(t + i * 0.06); osc.stop(t + i * 0.06 + 0.08);
     });
   }
@@ -2102,7 +2118,7 @@ const SFX = (() => {
     gain.gain.setValueAtTime(0.1, t);
     gain.gain.linearRampToValueAtTime(0.06, t + 0.05);
     gain.gain.exponentialRampToValueAtTime(0.001, t + 0.18);
-    osc.connect(gain); osc2.connect(gain); gain.connect(c.destination);
+    osc.connect(gain); osc2.connect(gain); gain.connect(getOutput());
     osc.start(t); osc.stop(t + 0.18);
     osc2.start(t); osc2.stop(t + 0.18);
   }
