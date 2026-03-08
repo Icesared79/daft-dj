@@ -1995,14 +1995,14 @@ const SFX = (() => {
       ctx = new (window.AudioContext || window.webkitAudioContext)();
       // Master volume ceiling — keeps sounds quiet no matter the system volume
       masterGain = ctx.createGain();
-      masterGain.gain.value = 0.3; // 30% max output
-      // Compressor prevents any spikes from clipping
+      masterGain.gain.value = 0.08; // Hard ceiling — whisper quiet
+      // Compressor as a limiter — clamps anything that tries to spike
       compressor = ctx.createDynamicsCompressor();
-      compressor.threshold.value = -30;
-      compressor.knee.value = 20;
-      compressor.ratio.value = 12;
-      compressor.attack.value = 0.003;
-      compressor.release.value = 0.1;
+      compressor.threshold.value = -50;
+      compressor.knee.value = 0;
+      compressor.ratio.value = 20;
+      compressor.attack.value = 0.001;
+      compressor.release.value = 0.05;
       masterGain.connect(compressor).connect(ctx.destination);
     }
     if (ctx.state === 'suspended') ctx.resume();
@@ -2034,7 +2034,7 @@ const SFX = (() => {
     osc.type = 'square';
     osc.frequency.setValueAtTime(1200, t);
     osc.frequency.exponentialRampToValueAtTime(600, t + 0.08);
-    gain.gain.setValueAtTime(0.12, t);
+    gain.gain.setValueAtTime(0.04, t);
     gain.gain.exponentialRampToValueAtTime(0.001, t + 0.08);
     osc.connect(gain).connect(getOutput());
     osc.start(t); osc.stop(t + 0.08);
@@ -2048,7 +2048,7 @@ const SFX = (() => {
     osc.type = 'sine';
     osc.frequency.setValueAtTime(400, t);
     osc.frequency.exponentialRampToValueAtTime(250, t + 0.12);
-    gain.gain.setValueAtTime(0.15, t);
+    gain.gain.setValueAtTime(0.05, t);
     gain.gain.exponentialRampToValueAtTime(0.001, t + 0.12);
     osc.connect(gain).connect(getOutput());
     osc.start(t); osc.stop(t + 0.12);
@@ -2066,7 +2066,7 @@ const SFX = (() => {
     osc2.type = 'sine';
     osc2.frequency.setValueAtTime(800, t);
     osc2.frequency.exponentialRampToValueAtTime(200, t + 0.15);
-    gain.gain.setValueAtTime(0.08, t);
+    gain.gain.setValueAtTime(0.03, t);
     gain.gain.exponentialRampToValueAtTime(0.001, t + 0.15);
     osc.connect(gain); osc2.connect(gain); gain.connect(getOutput());
     osc.start(t); osc.stop(t + 0.15);
@@ -2082,7 +2082,7 @@ const SFX = (() => {
     osc.frequency.setValueAtTime(300, t);
     osc.frequency.setValueAtTime(500, t + 0.04);
     osc.frequency.setValueAtTime(800, t + 0.08);
-    gain.gain.setValueAtTime(0.1, t);
+    gain.gain.setValueAtTime(0.03, t);
     gain.gain.exponentialRampToValueAtTime(0.001, t + 0.15);
     osc.connect(gain).connect(getOutput());
     osc.start(t); osc.stop(t + 0.15);
@@ -2096,7 +2096,7 @@ const SFX = (() => {
       const gain = c.createGain();
       osc.type = 'square';
       osc.frequency.setValueAtTime(freq, t + i * 0.06);
-      gain.gain.setValueAtTime(0.1, t + i * 0.06);
+      gain.gain.setValueAtTime(0.03, t + i * 0.06);
       gain.gain.exponentialRampToValueAtTime(0.001, t + i * 0.06 + 0.08);
       osc.connect(gain).connect(getOutput());
       osc.start(t + i * 0.06); osc.stop(t + i * 0.06 + 0.08);
@@ -2115,8 +2115,8 @@ const SFX = (() => {
     osc2.type = 'square';
     osc2.frequency.setValueAtTime(900, t);
     osc2.frequency.exponentialRampToValueAtTime(100, t + 0.12);
-    gain.gain.setValueAtTime(0.1, t);
-    gain.gain.linearRampToValueAtTime(0.06, t + 0.05);
+    gain.gain.setValueAtTime(0.04, t);
+    gain.gain.linearRampToValueAtTime(0.02, t + 0.05);
     gain.gain.exponentialRampToValueAtTime(0.001, t + 0.18);
     osc.connect(gain); osc2.connect(gain); gain.connect(getOutput());
     osc.start(t); osc.stop(t + 0.18);
