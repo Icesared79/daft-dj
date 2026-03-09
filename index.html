@@ -362,8 +362,8 @@ body::after {
 
 /* ===== CSS ROBOT HELMET — DAFT PUNK STYLE ===== */
 .helmet {
-  width: 300px; height: 280px;
-  margin: 0 auto 30px;
+  width: 320px; height: 300px;
+  margin: 0 auto 20px;
   position: relative;
   opacity: 0;
   transform: scale(0.9);
@@ -378,9 +378,9 @@ body::after {
 .helmet-svg {
   width: 100%; height: 100%;
   display: block;
-  filter: drop-shadow(0 4px 30px rgba(0,0,0,0.5));
+  filter: drop-shadow(0 6px 40px rgba(0,0,0,0.6));
 }
-/* No separate chin — DP helmets are one smooth piece */
+/* Legacy elements hidden */
 .helmet-chin { display: none; }
 .helmet-visor-band { display: none; }
 .helmet-antenna { display: none; }
@@ -1207,7 +1207,7 @@ section { position: relative; z-index: 1; padding: 120px 20px; }
 @media (max-width: 480px) {
   section { padding: 80px 16px; }
   .event-card { padding: 24px 20px; }
-  .helmet { width: 200px; height: 187px; }
+  .helmet { width: 220px; height: 206px; }
   .loader-helmet-wrap { transform: scale(0.8); }
 }
 </style>
@@ -1294,30 +1294,29 @@ section { position: relative; z-index: 1; padding: 120px 20px; }
 <!-- HERO -->
 <section class="hero" id="hero">
   <div class="helmet" id="heroHelmet">
-    <svg class="helmet-svg" viewBox="0 0 300 280" xmlns="http://www.w3.org/2000/svg">
+    <svg class="helmet-svg" viewBox="0 0 320 300" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <!-- Chrome dome gradient -->
-        <linearGradient id="domeGrad" x1="0.15" y1="0" x2="0.85" y2="1">
-          <stop offset="0%" stop-color="#d0d0d8"/>
-          <stop offset="8%" stop-color="#a8a8b4"/>
-          <stop offset="20%" stop-color="#78788a"/>
-          <stop offset="38%" stop-color="#505068"/>
-          <stop offset="55%" stop-color="#383850"/>
-          <stop offset="72%" stop-color="#252538"/>
-          <stop offset="100%" stop-color="#151525"/>
+        <!-- Dark chrome dome gradient — very dark like the real helmet -->
+        <linearGradient id="domeGrad" x1="0.2" y1="0" x2="0.8" y2="1">
+          <stop offset="0%" stop-color="#444450"/>
+          <stop offset="10%" stop-color="#2a2a38"/>
+          <stop offset="30%" stop-color="#1a1a28"/>
+          <stop offset="50%" stop-color="#111120"/>
+          <stop offset="75%" stop-color="#0a0a18"/>
+          <stop offset="100%" stop-color="#060612"/>
         </linearGradient>
         <!-- Visor sliding gradient -->
         <linearGradient id="visorFill" x1="0" y1="0" x2="1" y2="0">
           <stop offset="0%" stop-color="#00f5ff">
             <animate attributeName="stop-color" values="#00f5ff;#8800dd;#ff00aa;#00f5ff" dur="4s" repeatCount="indefinite"/>
           </stop>
-          <stop offset="30%" stop-color="#0088cc">
+          <stop offset="25%" stop-color="#0088cc">
             <animate attributeName="stop-color" values="#0088cc;#00f5ff;#8800dd;#0088cc" dur="4s" repeatCount="indefinite"/>
           </stop>
-          <stop offset="55%" stop-color="#8800dd">
+          <stop offset="50%" stop-color="#8800dd">
             <animate attributeName="stop-color" values="#8800dd;#ff00aa;#00f5ff;#8800dd" dur="4s" repeatCount="indefinite"/>
           </stop>
-          <stop offset="80%" stop-color="#ff00aa">
+          <stop offset="75%" stop-color="#ff00aa">
             <animate attributeName="stop-color" values="#ff00aa;#0088cc;#ff00aa;#ff00aa" dur="4s" repeatCount="indefinite"/>
           </stop>
           <stop offset="100%" stop-color="#00f5ff">
@@ -1325,139 +1324,207 @@ section { position: relative; z-index: 1; padding: 120px 20px; }
           </stop>
         </linearGradient>
         <!-- Visor glow filter -->
-        <filter id="visorGlow" x="-30%" y="-80%" width="160%" height="260%">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"/>
+        <filter id="visorGlow" x="-20%" y="-50%" width="140%" height="200%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur"/>
           <feComposite in="SourceGraphic" in2="blur" operator="over"/>
         </filter>
         <!-- Outer neon aura -->
         <filter id="helmetAura" x="-40%" y="-40%" width="180%" height="180%">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="18"/>
+          <feGaussianBlur in="SourceGraphic" stdDeviation="20"/>
         </filter>
-        <!-- Highlight sweep gradient -->
-        <linearGradient id="sweepGrad" x1="0" y1="0" x2="1" y2="0.3">
+        <!-- Diagonal chrome reflection gradient (the signature Daft Punk look) -->
+        <linearGradient id="chromeReflect" x1="0" y1="0" x2="0.7" y2="1" gradientUnits="objectBoundingBox">
           <stop offset="0%" stop-color="white" stop-opacity="0"/>
-          <stop offset="40%" stop-color="white" stop-opacity="0"/>
-          <stop offset="48%" stop-color="white" stop-opacity="0.12"/>
-          <stop offset="50%" stop-color="white" stop-opacity="0.18"/>
-          <stop offset="52%" stop-color="white" stop-opacity="0.12"/>
-          <stop offset="60%" stop-color="white" stop-opacity="0"/>
+          <stop offset="30%" stop-color="white" stop-opacity="0"/>
+          <stop offset="42%" stop-color="white" stop-opacity="0.03"/>
+          <stop offset="46%" stop-color="white" stop-opacity="0.15"/>
+          <stop offset="49%" stop-color="white" stop-opacity="0.35"/>
+          <stop offset="51%" stop-color="white" stop-opacity="0.35"/>
+          <stop offset="54%" stop-color="white" stop-opacity="0.15"/>
+          <stop offset="58%" stop-color="white" stop-opacity="0.03"/>
+          <stop offset="70%" stop-color="white" stop-opacity="0"/>
+          <stop offset="100%" stop-color="white" stop-opacity="0"/>
+        </linearGradient>
+        <!-- Secondary thinner reflection -->
+        <linearGradient id="chromeReflect2" x1="0" y1="0" x2="0.6" y2="1" gradientUnits="objectBoundingBox">
+          <stop offset="0%" stop-color="white" stop-opacity="0"/>
+          <stop offset="55%" stop-color="white" stop-opacity="0"/>
+          <stop offset="62%" stop-color="white" stop-opacity="0.08"/>
+          <stop offset="65%" stop-color="white" stop-opacity="0.18"/>
+          <stop offset="68%" stop-color="white" stop-opacity="0.08"/>
+          <stop offset="75%" stop-color="white" stop-opacity="0"/>
           <stop offset="100%" stop-color="white" stop-opacity="0"/>
         </linearGradient>
         <!-- Ear disc gradient -->
         <radialGradient id="earDiscGrad" cx="0.4" cy="0.35" r="0.55">
-          <stop offset="0%" stop-color="#888898"/>
-          <stop offset="50%" stop-color="#555568"/>
-          <stop offset="100%" stop-color="#303045"/>
-        </radialGradient>
-        <!-- Chin shadow -->
-        <linearGradient id="chinGrad" x1="0.5" y1="0" x2="0.5" y2="1">
-          <stop offset="0%" stop-color="#3a3a50"/>
+          <stop offset="0%" stop-color="#555565"/>
+          <stop offset="40%" stop-color="#333345"/>
           <stop offset="100%" stop-color="#1a1a2a"/>
-        </linearGradient>
-        <!-- Clip path to contain sweep inside helmet -->
+        </radialGradient>
+        <!-- Helmet outer shape for clipping -->
         <clipPath id="helmetClip">
           <path d="
-            M 60,145
-            C 60,60  90,22  150,22
-            C 210,22  240,60  240,145
-            C 240,180  235,210  220,235
-            C 210,252  190,262  150,262
-            C 110,262  90,252  80,235
-            C 65,210  60,180  60,145
+            M 55,130
+            C 55,48  95,12  160,12
+            C 225,12  265,48  265,130
+            L 265,165
+            C 265,195  258,215  245,232
+            L 230,250
+            C 220,260  200,270  160,270
+            C 120,270  100,260  90,250
+            L 75,232
+            C 62,215  55,195  55,165
+            Z
+          "/>
+        </clipPath>
+        <!-- Visor shape for clipping -->
+        <clipPath id="visorClip">
+          <path d="
+            M 68,88
+            C 68,78  80,68  100,62
+            C 120,56  140,54  160,54
+            C 180,54  200,56  220,62
+            C 240,68  252,78  252,88
+            L 252,200
+            C 252,218  240,232  220,240
+            C 200,248  180,250  160,250
+            C 140,250  120,248  100,240
+            C 80,232  68,218  68,200
             Z
           "/>
         </clipPath>
       </defs>
 
       <!-- Neon aura glow behind helmet -->
-      <ellipse cx="150" cy="140" rx="110" ry="105" fill="#00f5ff" opacity="0.07" filter="url(#helmetAura)">
-        <animate attributeName="opacity" values="0.05;0.1;0.05" dur="3s" repeatCount="indefinite"/>
-        <animate attributeName="rx" values="108;114;108" dur="3s" repeatCount="indefinite"/>
+      <ellipse cx="160" cy="150" rx="120" ry="115" fill="#00f5ff" opacity="0.06" filter="url(#helmetAura)">
+        <animate attributeName="opacity" values="0.04;0.09;0.04" dur="3s" repeatCount="indefinite"/>
+        <animate attributeName="rx" values="118;124;118" dur="3s" repeatCount="indefinite"/>
       </ellipse>
-      <ellipse cx="150" cy="140" rx="100" ry="95" fill="#ff00aa" opacity="0.04" filter="url(#helmetAura)">
-        <animate attributeName="opacity" values="0.03;0.06;0.03" dur="3s" repeatCount="indefinite"/>
+      <ellipse cx="160" cy="150" rx="110" ry="105" fill="#ff00aa" opacity="0.035" filter="url(#helmetAura)">
+        <animate attributeName="opacity" values="0.02;0.05;0.02" dur="3s" repeatCount="indefinite"/>
       </ellipse>
 
-      <!-- Main helmet shell — wider, flatter dome with distinct chin -->
+      <!-- ===== HELMET SHELL — dark chrome with angular jaw ===== -->
       <path d="
-        M 60,145
-        C 60,60  90,22  150,22
-        C 210,22  240,60  240,145
-        C 240,180  235,210  220,235
-        C 210,252  190,262  150,262
-        C 110,262  90,252  80,235
-        C 65,210  60,180  60,145
+        M 55,130
+        C 55,48  95,12  160,12
+        C 225,12  265,48  265,130
+        L 265,165
+        C 265,195  258,215  245,232
+        L 230,250
+        C 220,260  200,270  160,270
+        C 120,270  100,260  90,250
+        L 75,232
+        C 62,215  55,195  55,165
         Z
-      " fill="url(#domeGrad)" stroke="rgba(160,160,175,0.35)" stroke-width="1.5"/>
+      " fill="url(#domeGrad)" stroke="rgba(100,100,120,0.4)" stroke-width="1.5"/>
 
-      <!-- Inner rim highlight -->
-      <path d="
-        M 65,145
-        C 65,64  93,27  150,27
-        C 207,27  235,64  235,145
-        C 235,178  230,207  216,231
-        C 206,247  188,257  150,257
-        C 112,257  94,247  84,231
-        C 70,207  65,178  65,145
-        Z
-      " fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
-
-      <!-- Clipped group: highlights and details constrained to helmet shape -->
+      <!-- Clipped details inside helmet shape -->
       <g clip-path="url(#helmetClip)">
-        <!-- Top dome highlight — simulates overhead light reflection -->
-        <ellipse cx="135" cy="52" rx="50" ry="18" fill="white" opacity="0.05"/>
-        <ellipse cx="130" cy="48" rx="30" ry="8" fill="white" opacity="0.06"/>
-
-        <!-- Chrome sweep highlight band (animated) -->
-        <rect x="55" y="20" width="190" height="250" fill="url(#sweepGrad)" opacity="0.7">
-          <animateTransform attributeName="transform" type="translate" values="-60,0;60,0;-60,0" dur="5s" repeatCount="indefinite"/>
+        <!-- Bold diagonal chrome reflection — THE signature DP look -->
+        <rect x="0" y="0" width="320" height="300" fill="url(#chromeReflect)">
+          <animateTransform attributeName="transform" type="translate" values="-30,-15;30,15;-30,-15" dur="6s" repeatCount="indefinite"/>
         </rect>
+        <!-- Second thinner parallel reflection -->
+        <rect x="0" y="0" width="320" height="300" fill="url(#chromeReflect2)"/>
+
+        <!-- Subtle edge highlight on top of dome -->
+        <ellipse cx="140" cy="30" rx="55" ry="10" fill="white" opacity="0.04"/>
 
         <!-- Forehead center seam -->
-        <line x1="150" y1="28" x2="150" y2="120" stroke="rgba(255,255,255,0.05)" stroke-width="0.8"/>
+        <line x1="160" y1="12" x2="160" y2="80" stroke="rgba(255,255,255,0.04)" stroke-width="0.6"/>
       </g>
 
-      <!-- ===== VISOR — wide wraparound band ===== -->
-      <!-- Visor background (dark recessed area) -->
-      <rect x="72" y="118" width="156" height="48" rx="24" fill="#08080f" stroke="rgba(80,80,100,0.5)" stroke-width="1.2"/>
-      <!-- Visor inner shadow top -->
-      <rect x="74" y="118" width="152" height="10" rx="5" fill="black" opacity="0.5"/>
-      <!-- Visor glowing surface -->
-      <rect class="helmet-visor-glow" x="78" y="123" width="144" height="38" rx="19" fill="url(#visorFill)" filter="url(#visorGlow)" opacity="0">
-        <animate attributeName="opacity" begin="0.3s" values="0;0.95" dur="0.8s" fill="freeze"/>
-      </rect>
-      <!-- Visor top reflection streak -->
-      <rect x="100" y="126" width="90" height="3" rx="1.5" fill="white" opacity="0.1"/>
-      <!-- Visor edge glow — cyan inner border -->
-      <rect x="76" y="121" width="148" height="42" rx="21" fill="none" stroke="#00f5ff" stroke-width="0.6" opacity="0">
-        <animate attributeName="opacity" begin="0.5s" values="0;0.25" dur="0.6s" fill="freeze"/>
-      </rect>
+      <!-- ===== VISOR — massive, covers forehead to chin ===== -->
+      <!-- Visor recessed dark area — the entire face plate -->
+      <path d="
+        M 70,90
+        C 70,78  82,68  105,62
+        C 125,56  142,54  160,54
+        C 178,54  195,56  215,62
+        C 238,68  250,78  250,90
+        L 250,198
+        C 250,216  238,230  215,238
+        C 195,246  178,248  160,248
+        C 142,248  125,246  105,238
+        C 82,230  70,216  70,198
+        Z
+      " fill="#050510" stroke="rgba(60,60,80,0.5)" stroke-width="1"/>
 
-      <!-- ===== EAR DISCS — signature Daft Punk detail ===== -->
+      <!-- Visor inner shadow (depth) -->
+      <path d="
+        M 74,92
+        C 74,80  86,72  106,66
+        C 126,60  143,58  160,58
+        C 177,58  194,60  214,66
+        C 234,72  246,80  246,92
+        L 246,196
+        C 246,212  234,226  214,234
+        C 194,242  177,244  160,244
+        C 143,244  126,242  106,234
+        C 86,226  74,212  74,196
+        Z
+      " fill="#020208"/>
+
+      <!-- Visor glowing surface — the big animated faceplate -->
+      <path class="helmet-visor-glow" d="
+        M 78,94
+        C 78,82  90,74  108,68
+        C 128,62  144,60  160,60
+        C 176,60  192,62  212,68
+        C 230,74  242,82  242,94
+        L 242,194
+        C 242,210  230,222  212,230
+        C 192,238  176,240  160,240
+        C 144,240  128,238  108,230
+        C 90,222  78,210  78,194
+        Z
+      " fill="url(#visorFill)" filter="url(#visorGlow)" opacity="0">
+        <animate attributeName="opacity" begin="0.3s" values="0;0.85" dur="0.8s" fill="freeze"/>
+      </path>
+
+      <!-- Visor inner reflections -->
+      <g clip-path="url(#visorClip)" opacity="0">
+        <animate attributeName="opacity" begin="0.3s" values="0;1" dur="0.8s" fill="freeze"/>
+        <!-- Top reflection arc -->
+        <ellipse cx="160" cy="72" rx="65" ry="6" fill="white" opacity="0.08"/>
+        <!-- Diagonal reflection across visor -->
+        <rect x="60" y="50" width="200" height="200" fill="url(#chromeReflect)" opacity="0.15">
+          <animateTransform attributeName="transform" type="translate" values="-20,-10;20,10;-20,-10" dur="6s" repeatCount="indefinite"/>
+        </rect>
+      </g>
+
+      <!-- Visor edge glow — cyan border -->
+      <path d="
+        M 72,91
+        C 72,79  84,69  106,63
+        C 126,57  143,55  160,55
+        C 177,55  194,57  214,63
+        C 236,69  248,79  248,91
+        L 248,197
+        C 248,215  236,228  214,236
+        C 194,244  177,246  160,246
+        C 143,246  126,244  106,236
+        C 84,228  72,215  72,197
+        Z
+      " fill="none" stroke="#00f5ff" stroke-width="0.5" opacity="0">
+        <animate attributeName="opacity" begin="0.5s" values="0;0.3" dur="0.6s" fill="freeze"/>
+      </path>
+
+      <!-- ===== EAR DISCS — on the temple sides ===== -->
       <!-- Left ear disc -->
-      <circle cx="68" cy="148" r="18" fill="url(#earDiscGrad)" stroke="rgba(140,140,160,0.4)" stroke-width="1"/>
-      <circle cx="68" cy="148" r="12" fill="none" stroke="rgba(200,200,210,0.15)" stroke-width="0.8"/>
-      <circle cx="68" cy="148" r="6" fill="none" stroke="rgba(180,180,190,0.12)" stroke-width="0.6"/>
-      <circle cx="68" cy="148" r="2" fill="#555568"/>
-      <!-- Left ear disc highlight -->
-      <ellipse cx="64" cy="143" rx="7" ry="4" fill="white" opacity="0.04"/>
+      <circle cx="58" cy="135" r="20" fill="url(#earDiscGrad)" stroke="rgba(100,100,120,0.5)" stroke-width="1.2"/>
+      <circle cx="58" cy="135" r="14" fill="none" stroke="rgba(180,180,200,0.12)" stroke-width="0.8"/>
+      <circle cx="58" cy="135" r="8" fill="none" stroke="rgba(160,160,180,0.1)" stroke-width="0.6"/>
+      <circle cx="58" cy="135" r="3" fill="#333345" stroke="rgba(100,100,120,0.3)" stroke-width="0.5"/>
+      <ellipse cx="53" cy="129" rx="8" ry="5" fill="white" opacity="0.03"/>
 
       <!-- Right ear disc -->
-      <circle cx="232" cy="148" r="18" fill="url(#earDiscGrad)" stroke="rgba(140,140,160,0.4)" stroke-width="1"/>
-      <circle cx="232" cy="148" r="12" fill="none" stroke="rgba(200,200,210,0.15)" stroke-width="0.8"/>
-      <circle cx="232" cy="148" r="6" fill="none" stroke="rgba(180,180,190,0.12)" stroke-width="0.6"/>
-      <circle cx="232" cy="148" r="2" fill="#555568"/>
-      <!-- Right ear disc highlight -->
-      <ellipse cx="228" cy="143" rx="7" ry="4" fill="white" opacity="0.04"/>
-
-      <!-- ===== CHIN AREA — distinct lower section ===== -->
-      <!-- Chin divider line -->
-      <path d="M 85,185 Q 150,195 215,185" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="0.8"/>
-      <!-- Mouth slit / vent detail -->
-      <rect x="130" y="210" width="40" height="2" rx="1" fill="rgba(150,150,165,0.2)"/>
-      <rect x="120" y="225" width="60" height="1.5" rx="0.75" fill="rgba(120,120,140,0.15)"/>
-      <!-- Chin contour shadow -->
-      <ellipse cx="150" cy="250" rx="45" ry="8" fill="black" opacity="0.15"/>
+      <circle cx="262" cy="135" r="20" fill="url(#earDiscGrad)" stroke="rgba(100,100,120,0.5)" stroke-width="1.2"/>
+      <circle cx="262" cy="135" r="14" fill="none" stroke="rgba(180,180,200,0.12)" stroke-width="0.8"/>
+      <circle cx="262" cy="135" r="8" fill="none" stroke="rgba(160,160,180,0.1)" stroke-width="0.6"/>
+      <circle cx="262" cy="135" r="3" fill="#333345" stroke="rgba(100,100,120,0.3)" stroke-width="0.5"/>
+      <ellipse cx="257" cy="129" rx="8" ry="5" fill="white" opacity="0.03"/>
     </svg>
   </div>
   <p class="robot-quote" id="robotQuote">// HUMAN AFTER ALL //</p>
