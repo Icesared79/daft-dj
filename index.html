@@ -362,7 +362,7 @@ body::after {
 
 /* ===== CSS ROBOT HELMET — DAFT PUNK STYLE ===== */
 .helmet {
-  width: 260px; height: 320px;
+  width: 300px; height: 280px;
   margin: 0 auto 30px;
   position: relative;
   opacity: 0;
@@ -375,189 +375,15 @@ body::after {
   from { opacity: 0; transform: scale(0.9); }
   to { opacity: 1; transform: scale(1); }
 }
-/* Helmet glow halo */
-.helmet::before {
-  content: '';
-  position: absolute; top: -40px; left: -40px; right: -40px; bottom: -40px;
-  border-radius: 50%;
-  background: radial-gradient(ellipse, rgba(0,245,255,0.06) 0%, rgba(255,0,170,0.03) 40%, transparent 70%);
-  animation: haloBreath 3s ease-in-out infinite;
+.helmet-svg {
+  width: 100%; height: 100%;
+  display: block;
+  filter: drop-shadow(0 4px 30px rgba(0,0,0,0.5));
 }
-@keyframes haloBreath {
-  0%, 100% { opacity: 0.5; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.08); }
-}
-
-/* Main dome — Thomas Bangalter style: tall, sleek, chrome */
-.helmet-dome {
-  width: 260px; height: 320px;
-  border-radius: 130px 130px 100px 100px / 160px 160px 120px 120px;
-  background: linear-gradient(170deg,
-    #bbb 0%, #aaa 5%, #888 12%,
-    #666 20%, #4a4a58 32%,
-    #333340 48%, #28283a 60%,
-    #1e1e2e 75%, #151525 100%
-  );
-  border: 1.5px solid rgba(180,180,190,0.35);
-  position: absolute; top: 0;
-  overflow: hidden;
-  box-shadow:
-    inset -30px -15px 50px rgba(0,0,0,0.4),
-    inset 15px 8px 30px rgba(255,255,255,0.05),
-    inset 0 -20px 40px rgba(0,0,0,0.3),
-    0 12px 50px rgba(0,0,0,0.6),
-    0 0 80px rgba(0,0,0,0.2);
-}
-
-/* Chrome sweep highlight — broad reflective band */
-.helmet-dome::before {
-  content: '';
-  position: absolute; top: 0; left: -80%;
-  width: 260%; height: 100%;
-  background: linear-gradient(105deg,
-    transparent 0%,
-    rgba(255,255,255,0.01) 30%,
-    rgba(255,255,255,0.06) 42%,
-    rgba(255,255,255,0.14) 48%,
-    rgba(255,255,255,0.18) 50%,
-    rgba(255,255,255,0.14) 52%,
-    rgba(255,255,255,0.06) 58%,
-    rgba(255,255,255,0.01) 70%,
-    transparent 100%
-  );
-  animation: helmetSweep 4s ease-in-out infinite;
-}
-/* Inner chrome rim + top highlight arc */
-.helmet-dome::after {
-  content: '';
-  position: absolute; top: 5px; left: 5px; right: 5px; bottom: 5px;
-  border-radius: 126px 126px 96px 96px / 156px 156px 116px 116px;
-  border: 1px solid rgba(255,255,255,0.04);
-  box-shadow:
-    inset 0 -6px 20px rgba(0,0,0,0.25),
-    inset 0 30px 40px rgba(255,255,255,0.02);
-  background: linear-gradient(180deg,
-    rgba(255,255,255,0.06) 0%,
-    transparent 20%,
-    transparent 100%
-  );
-}
-@keyframes helmetSweep {
-  0% { transform: translateX(-20%); }
-  100% { transform: translateX(20%); }
-}
-
-/* ===== VISOR — wide curved band, Thomas-style ===== */
-.helmet-visor {
-  position: absolute;
-  top: 120px; left: 16px; right: 16px;
-  height: 44px;
-  background: #06060c;
-  border-radius: 22px;
-  border: 1.5px solid rgba(90,90,110,0.5);
-  box-shadow:
-    inset 0 2px 12px rgba(0,0,0,0.95),
-    inset 0 -2px 8px rgba(0,0,0,0.6),
-    0 0 25px rgba(0,0,0,0.4),
-    0 2px 4px rgba(0,0,0,0.3);
-  overflow: hidden;
-  z-index: 2;
-}
-/* Visor glow — gradient that slides across */
-.helmet-visor::before {
-  content: '';
-  position: absolute; inset: 4px; border-radius: 18px;
-  background: linear-gradient(90deg,
-    var(--cyan) 0%, rgba(0,245,255,0.6) 15%,
-    rgba(100,0,200,0.4) 40%, var(--magenta) 55%,
-    rgba(255,0,170,0.5) 70%, rgba(0,245,255,0.4) 90%, var(--cyan) 100%
-  );
-  background-size: 200% 100%;
-  animation: visorSlide 4s linear infinite;
-  box-shadow:
-    0 0 15px rgba(0,245,255,0.3),
-    0 0 30px rgba(255,0,170,0.2),
-    0 0 60px rgba(0,245,255,0.1);
-}
-@keyframes visorSlide {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 200% 50%; }
-}
-/* Visor top reflection */
-.helmet-visor::after {
-  content: '';
-  position: absolute; top: 5px; left: 30px; right: 30px; height: 4px;
-  border-radius: 2px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
-}
-
 /* No separate chin — DP helmets are one smooth piece */
 .helmet-chin { display: none; }
 .helmet-visor-band { display: none; }
 .helmet-antenna { display: none; }
-
-/* Side accent ridges — like Thomas's helmet vents */
-.helmet-ear {
-  position: absolute;
-  top: 100px;
-  width: 8px; height: 90px;
-  z-index: 3;
-}
-.helmet-ear.left-ear {
-  left: 3px;
-  background: linear-gradient(180deg, rgba(120,120,130,0.4), rgba(50,50,60,0.5), rgba(30,30,40,0.4));
-  border-radius: 4px 0 0 4px;
-  border-left: 1px solid rgba(160,160,170,0.25);
-  box-shadow: inset -2px 0 4px rgba(0,0,0,0.3);
-}
-.helmet-ear.right-ear {
-  right: 3px;
-  background: linear-gradient(180deg, rgba(120,120,130,0.4), rgba(50,50,60,0.5), rgba(30,30,40,0.4));
-  border-radius: 0 4px 4px 0;
-  border-right: 1px solid rgba(160,160,170,0.25);
-  box-shadow: inset 2px 0 4px rgba(0,0,0,0.3);
-}
-/* Small LED on ear */
-.helmet-ear::after {
-  content: '';
-  position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);
-  width: 3px; height: 3px; border-radius: 50%;
-  background: var(--gold);
-  box-shadow: 0 0 4px var(--gold);
-  animation: earLed 2s ease infinite;
-}
-@keyframes earLed {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 1; }
-}
-
-/* Forehead center seam — subtle dividing line */
-.helmet-seam {
-  position: absolute;
-  top: 0; left: 50%; transform: translateX(-50%);
-  width: 1px; height: 110px;
-  background: linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.06) 30%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 80%, transparent 100%);
-  z-index: 3;
-}
-
-/* Bottom jaw/chin area — subtle mouth line like Thomas helmet */
-.helmet-jaw-light {
-  position: absolute;
-  bottom: 55px; left: 50%; transform: translateX(-50%);
-  width: 50px; height: 2px;
-  border-radius: 1px;
-  background: linear-gradient(90deg, transparent, rgba(150,150,160,0.3), transparent);
-  opacity: 0.5;
-  z-index: 3;
-}
-/* Chin contour shadow */
-.helmet-jaw-light::after {
-  content: '';
-  position: absolute;
-  bottom: -20px; left: 50%; transform: translateX(-50%);
-  width: 80px; height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent);
-}
 
 /* Robot quote under helmet */
 .robot-quote {
@@ -1381,15 +1207,7 @@ section { position: relative; z-index: 1; padding: 120px 20px; }
 @media (max-width: 480px) {
   section { padding: 80px 16px; }
   .event-card { padding: 24px 20px; }
-  .helmet { width: 170px; height: 210px; }
-  .helmet-dome { width: 170px; height: 210px; border-radius: 85px 85px 65px 65px / 105px 105px 78px 78px; }
-  .helmet-visor { top: 78px; left: 10px; right: 10px; height: 30px; border-radius: 15px; }
-  .helmet-visor::before { inset: 3px; border-radius: 12px; }
-  .helmet-ear { height: 58px; width: 6px; top: 65px; }
-  .helmet-ear.left-ear { left: 2px; }
-  .helmet-ear.right-ear { right: 2px; }
-  .helmet-seam { height: 72px; }
-  .helmet-jaw-light { bottom: 36px; width: 32px; }
+  .helmet { width: 200px; height: 187px; }
   .loader-helmet-wrap { transform: scale(0.8); }
 }
 </style>
@@ -1476,13 +1294,171 @@ section { position: relative; z-index: 1; padding: 120px 20px; }
 <!-- HERO -->
 <section class="hero" id="hero">
   <div class="helmet" id="heroHelmet">
-    <div class="helmet-dome">
-      <div class="helmet-visor"></div>
-    </div>
-    <div class="helmet-seam"></div>
-    <div class="helmet-ear left-ear"></div>
-    <div class="helmet-ear right-ear"></div>
-    <div class="helmet-jaw-light"></div>
+    <svg class="helmet-svg" viewBox="0 0 300 280" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <!-- Chrome dome gradient -->
+        <linearGradient id="domeGrad" x1="0.15" y1="0" x2="0.85" y2="1">
+          <stop offset="0%" stop-color="#d0d0d8"/>
+          <stop offset="8%" stop-color="#a8a8b4"/>
+          <stop offset="20%" stop-color="#78788a"/>
+          <stop offset="38%" stop-color="#505068"/>
+          <stop offset="55%" stop-color="#383850"/>
+          <stop offset="72%" stop-color="#252538"/>
+          <stop offset="100%" stop-color="#151525"/>
+        </linearGradient>
+        <!-- Visor sliding gradient -->
+        <linearGradient id="visorFill" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#00f5ff">
+            <animate attributeName="stop-color" values="#00f5ff;#8800dd;#ff00aa;#00f5ff" dur="4s" repeatCount="indefinite"/>
+          </stop>
+          <stop offset="30%" stop-color="#0088cc">
+            <animate attributeName="stop-color" values="#0088cc;#00f5ff;#8800dd;#0088cc" dur="4s" repeatCount="indefinite"/>
+          </stop>
+          <stop offset="55%" stop-color="#8800dd">
+            <animate attributeName="stop-color" values="#8800dd;#ff00aa;#00f5ff;#8800dd" dur="4s" repeatCount="indefinite"/>
+          </stop>
+          <stop offset="80%" stop-color="#ff00aa">
+            <animate attributeName="stop-color" values="#ff00aa;#0088cc;#ff00aa;#ff00aa" dur="4s" repeatCount="indefinite"/>
+          </stop>
+          <stop offset="100%" stop-color="#00f5ff">
+            <animate attributeName="stop-color" values="#00f5ff;#ff00aa;#0088cc;#00f5ff" dur="4s" repeatCount="indefinite"/>
+          </stop>
+        </linearGradient>
+        <!-- Visor glow filter -->
+        <filter id="visorGlow" x="-30%" y="-80%" width="160%" height="260%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"/>
+          <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+        </filter>
+        <!-- Outer neon aura -->
+        <filter id="helmetAura" x="-40%" y="-40%" width="180%" height="180%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="18"/>
+        </filter>
+        <!-- Highlight sweep gradient -->
+        <linearGradient id="sweepGrad" x1="0" y1="0" x2="1" y2="0.3">
+          <stop offset="0%" stop-color="white" stop-opacity="0"/>
+          <stop offset="40%" stop-color="white" stop-opacity="0"/>
+          <stop offset="48%" stop-color="white" stop-opacity="0.12"/>
+          <stop offset="50%" stop-color="white" stop-opacity="0.18"/>
+          <stop offset="52%" stop-color="white" stop-opacity="0.12"/>
+          <stop offset="60%" stop-color="white" stop-opacity="0"/>
+          <stop offset="100%" stop-color="white" stop-opacity="0"/>
+        </linearGradient>
+        <!-- Ear disc gradient -->
+        <radialGradient id="earDiscGrad" cx="0.4" cy="0.35" r="0.55">
+          <stop offset="0%" stop-color="#888898"/>
+          <stop offset="50%" stop-color="#555568"/>
+          <stop offset="100%" stop-color="#303045"/>
+        </radialGradient>
+        <!-- Chin shadow -->
+        <linearGradient id="chinGrad" x1="0.5" y1="0" x2="0.5" y2="1">
+          <stop offset="0%" stop-color="#3a3a50"/>
+          <stop offset="100%" stop-color="#1a1a2a"/>
+        </linearGradient>
+        <!-- Clip path to contain sweep inside helmet -->
+        <clipPath id="helmetClip">
+          <path d="
+            M 60,145
+            C 60,60  90,22  150,22
+            C 210,22  240,60  240,145
+            C 240,180  235,210  220,235
+            C 210,252  190,262  150,262
+            C 110,262  90,252  80,235
+            C 65,210  60,180  60,145
+            Z
+          "/>
+        </clipPath>
+      </defs>
+
+      <!-- Neon aura glow behind helmet -->
+      <ellipse cx="150" cy="140" rx="110" ry="105" fill="#00f5ff" opacity="0.07" filter="url(#helmetAura)">
+        <animate attributeName="opacity" values="0.05;0.1;0.05" dur="3s" repeatCount="indefinite"/>
+        <animate attributeName="rx" values="108;114;108" dur="3s" repeatCount="indefinite"/>
+      </ellipse>
+      <ellipse cx="150" cy="140" rx="100" ry="95" fill="#ff00aa" opacity="0.04" filter="url(#helmetAura)">
+        <animate attributeName="opacity" values="0.03;0.06;0.03" dur="3s" repeatCount="indefinite"/>
+      </ellipse>
+
+      <!-- Main helmet shell — wider, flatter dome with distinct chin -->
+      <path d="
+        M 60,145
+        C 60,60  90,22  150,22
+        C 210,22  240,60  240,145
+        C 240,180  235,210  220,235
+        C 210,252  190,262  150,262
+        C 110,262  90,252  80,235
+        C 65,210  60,180  60,145
+        Z
+      " fill="url(#domeGrad)" stroke="rgba(160,160,175,0.35)" stroke-width="1.5"/>
+
+      <!-- Inner rim highlight -->
+      <path d="
+        M 65,145
+        C 65,64  93,27  150,27
+        C 207,27  235,64  235,145
+        C 235,178  230,207  216,231
+        C 206,247  188,257  150,257
+        C 112,257  94,247  84,231
+        C 70,207  65,178  65,145
+        Z
+      " fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+
+      <!-- Clipped group: highlights and details constrained to helmet shape -->
+      <g clip-path="url(#helmetClip)">
+        <!-- Top dome highlight — simulates overhead light reflection -->
+        <ellipse cx="135" cy="52" rx="50" ry="18" fill="white" opacity="0.05"/>
+        <ellipse cx="130" cy="48" rx="30" ry="8" fill="white" opacity="0.06"/>
+
+        <!-- Chrome sweep highlight band (animated) -->
+        <rect x="55" y="20" width="190" height="250" fill="url(#sweepGrad)" opacity="0.7">
+          <animateTransform attributeName="transform" type="translate" values="-60,0;60,0;-60,0" dur="5s" repeatCount="indefinite"/>
+        </rect>
+
+        <!-- Forehead center seam -->
+        <line x1="150" y1="28" x2="150" y2="120" stroke="rgba(255,255,255,0.05)" stroke-width="0.8"/>
+      </g>
+
+      <!-- ===== VISOR — wide wraparound band ===== -->
+      <!-- Visor background (dark recessed area) -->
+      <rect x="72" y="118" width="156" height="48" rx="24" fill="#08080f" stroke="rgba(80,80,100,0.5)" stroke-width="1.2"/>
+      <!-- Visor inner shadow top -->
+      <rect x="74" y="118" width="152" height="10" rx="5" fill="black" opacity="0.5"/>
+      <!-- Visor glowing surface -->
+      <rect class="helmet-visor-glow" x="78" y="123" width="144" height="38" rx="19" fill="url(#visorFill)" filter="url(#visorGlow)" opacity="0">
+        <animate attributeName="opacity" begin="0.3s" values="0;0.95" dur="0.8s" fill="freeze"/>
+      </rect>
+      <!-- Visor top reflection streak -->
+      <rect x="100" y="126" width="90" height="3" rx="1.5" fill="white" opacity="0.1"/>
+      <!-- Visor edge glow — cyan inner border -->
+      <rect x="76" y="121" width="148" height="42" rx="21" fill="none" stroke="#00f5ff" stroke-width="0.6" opacity="0">
+        <animate attributeName="opacity" begin="0.5s" values="0;0.25" dur="0.6s" fill="freeze"/>
+      </rect>
+
+      <!-- ===== EAR DISCS — signature Daft Punk detail ===== -->
+      <!-- Left ear disc -->
+      <circle cx="68" cy="148" r="18" fill="url(#earDiscGrad)" stroke="rgba(140,140,160,0.4)" stroke-width="1"/>
+      <circle cx="68" cy="148" r="12" fill="none" stroke="rgba(200,200,210,0.15)" stroke-width="0.8"/>
+      <circle cx="68" cy="148" r="6" fill="none" stroke="rgba(180,180,190,0.12)" stroke-width="0.6"/>
+      <circle cx="68" cy="148" r="2" fill="#555568"/>
+      <!-- Left ear disc highlight -->
+      <ellipse cx="64" cy="143" rx="7" ry="4" fill="white" opacity="0.04"/>
+
+      <!-- Right ear disc -->
+      <circle cx="232" cy="148" r="18" fill="url(#earDiscGrad)" stroke="rgba(140,140,160,0.4)" stroke-width="1"/>
+      <circle cx="232" cy="148" r="12" fill="none" stroke="rgba(200,200,210,0.15)" stroke-width="0.8"/>
+      <circle cx="232" cy="148" r="6" fill="none" stroke="rgba(180,180,190,0.12)" stroke-width="0.6"/>
+      <circle cx="232" cy="148" r="2" fill="#555568"/>
+      <!-- Right ear disc highlight -->
+      <ellipse cx="228" cy="143" rx="7" ry="4" fill="white" opacity="0.04"/>
+
+      <!-- ===== CHIN AREA — distinct lower section ===== -->
+      <!-- Chin divider line -->
+      <path d="M 85,185 Q 150,195 215,185" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="0.8"/>
+      <!-- Mouth slit / vent detail -->
+      <rect x="130" y="210" width="40" height="2" rx="1" fill="rgba(150,150,165,0.2)"/>
+      <rect x="120" y="225" width="60" height="1.5" rx="0.75" fill="rgba(120,120,140,0.15)"/>
+      <!-- Chin contour shadow -->
+      <ellipse cx="150" cy="250" rx="45" ry="8" fill="black" opacity="0.15"/>
+    </svg>
   </div>
   <p class="robot-quote" id="robotQuote">// HUMAN AFTER ALL //</p>
   <div class="hero-content" id="heroContent">
