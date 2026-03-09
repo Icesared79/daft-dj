@@ -54,60 +54,27 @@ h1, h2, h3, h4 { font-family: 'Orbitron', sans-serif; text-transform: uppercase;
   50% { opacity: 0.8; }
 }
 
-/* Big loader helmet — Daft Punk style */
+/* Loader helmet — Guy-Manuel gold SVG */
 .loader-helmet-wrap {
-  position: relative; width: 200px; height: 170px;
+  position: relative; width: 240px; height: 230px;
   animation: loaderFloat 3s ease-in-out infinite;
 }
 @keyframes loaderFloat {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  50% { transform: translateY(-12px); }
 }
-.loader-dome {
-  width: 200px; height: 170px;
-  border-radius: 100px 100px 80px 80px;
-  background: linear-gradient(165deg, #888 0%, #555 15%, #3a3a48 35%, #2a2a35 55%, #1a1a25 100%);
-  border: 2px solid #555;
-  position: absolute; top: 0;
-  overflow: hidden;
+.loader-helmet-svg {
+  width: 100%; height: 100%;
+  filter: drop-shadow(0 0 40px rgba(255,215,0,0.15)) drop-shadow(0 0 80px rgba(0,245,255,0.1));
 }
-.loader-dome::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
-  animation: loaderSweep 2s ease-in-out infinite;
-}
-@keyframes loaderSweep {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
-}
-/* Loader visor — single continuous band */
-.loader-visor {
-  position: absolute; top: 55px; left: 18px; right: 18px;
-  height: 36px;
-  background: #0a0a12;
-  border-radius: 18px;
-  border: 1px solid #333;
-  box-shadow: inset 0 2px 8px rgba(0,0,0,0.8);
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-}
-.loader-visor-glow {
-  position: absolute; inset: 4px;
-  border-radius: 14px;
-  opacity: 0;
-  background: linear-gradient(90deg, var(--cyan), var(--magenta), var(--cyan));
-  background-size: 200% 100%;
-  transition: opacity 0.3s ease;
-}
+/* Visor starts dark, powers on via JS class */
+.loader-visor-glow { opacity: 0; transition: opacity 0.3s ease; }
 .loader-visor-glow.flicker {
   animation: visorFlicker 0.6s steps(3) forwards;
 }
 .loader-visor-glow.on {
-  opacity: 1;
-  box-shadow: 0 0 20px rgba(0,245,255,0.4), 0 0 40px rgba(255,0,170,0.2);
-  animation: visorGradientSlide 3s linear infinite;
+  opacity: 0.85;
+  animation: none;
 }
 @keyframes visorFlicker {
   0% { opacity: 0; }
@@ -116,34 +83,45 @@ h1, h2, h3, h4 { font-family: 'Orbitron', sans-serif; text-transform: uppercase;
   50% { opacity: 0.5; }
   70% { opacity: 0; }
   85% { opacity: 0.8; }
-  100% { opacity: 1; }
+  100% { opacity: 0.85; }
 }
-@keyframes visorGradientSlide {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 200% 50%; }
+/* Visor edge glow — appears when visor is on */
+.loader-visor-edge { opacity: 0; transition: opacity 0.4s ease; }
+.loader-visor-edge.on { opacity: 0.35; }
+
+/* Floating particles behind helmet */
+.loader-particles {
+  position: absolute; inset: -60px;
+  pointer-events: none;
+  overflow: hidden;
 }
-/* Visor reflection line */
-.loader-visor::after {
+.loader-particles .particle {
+  position: absolute;
+  width: 2px; height: 2px;
+  border-radius: 50%;
+  opacity: 0;
+  animation: particleRise linear infinite;
+}
+@keyframes particleRise {
+  0% { opacity: 0; transform: translateY(0) scale(0.5); }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-180px) scale(0); }
+}
+/* Scanline effect on loader */
+.loader-scanline {
+  position: absolute; inset: 0; pointer-events: none;
+  overflow: hidden; opacity: 0.3;
+}
+.loader-scanline::after {
   content: '';
-  position: absolute; top: 5px; left: 12px; right: 12px; height: 3px;
-  border-radius: 2px;
-  background: rgba(255,255,255,0.08);
+  position: absolute; left: 0; right: 0; height: 4px;
+  background: linear-gradient(90deg, transparent, rgba(0,245,255,0.15), transparent);
+  animation: scanDown 2.5s linear infinite;
 }
-/* No separate chin — smooth continuous shape */
-.loader-antenna {
-  position: absolute; top: -2px; left: 50%; transform: translateX(-50%);
-  width: 0; height: 0;
-  border: none; background: none;
-}
-.loader-antenna::after {
-  content: '';
-  position: absolute; top: -7px; left: 50%; transform: translateX(-50%);
-  width: 0; height: 0;
-  background: none;
-}
-.loader-antenna.on::after {
-  background: none;
-  box-shadow: none;
+@keyframes scanDown {
+  0% { top: -4px; }
+  100% { top: 100%; }
 }
 
 /* Loader text sequence */
@@ -1208,7 +1186,7 @@ section { position: relative; z-index: 1; padding: 120px 20px; }
   section { padding: 80px 16px; }
   .event-card { padding: 24px 20px; }
   .helmet { width: 220px; height: 206px; }
-  .loader-helmet-wrap { transform: scale(0.8); }
+  .loader-helmet-wrap { width: 180px; height: 173px; }
 }
 </style>
 </head>
@@ -1220,11 +1198,90 @@ section { position: relative; z-index: 1; padding: 120px 20px; }
 <!-- Page Load Animation -->
 <div id="loader">
   <div class="loader-helmet-wrap">
-    <div class="loader-dome">
-      <div class="loader-visor">
-        <div class="loader-visor-glow" id="loaderVisor"></div>
-      </div>
-    </div>
+    <!-- Floating particles -->
+    <div class="loader-particles" id="loaderParticles"></div>
+    <!-- Scanline sweep -->
+    <div class="loader-scanline"></div>
+    <!-- Guy-Manuel gold helmet SVG -->
+    <svg class="loader-helmet-svg" viewBox="0 0 320 300" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="ldDomeGrad" x1="0.2" y1="0" x2="0.8" y2="1">
+          <stop offset="0%" stop-color="#ffe066"/>
+          <stop offset="8%" stop-color="#ffd700"/>
+          <stop offset="18%" stop-color="#d4a800"/>
+          <stop offset="35%" stop-color="#a07d00"/>
+          <stop offset="52%" stop-color="#6b5500"/>
+          <stop offset="72%" stop-color="#3a2e00"/>
+          <stop offset="100%" stop-color="#1a1400"/>
+        </linearGradient>
+        <linearGradient id="ldVisorFill" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#00f5ff">
+            <animate attributeName="stop-color" values="#00f5ff;#8800dd;#ff00aa;#00f5ff" dur="4s" repeatCount="indefinite"/>
+          </stop>
+          <stop offset="25%" stop-color="#0088cc">
+            <animate attributeName="stop-color" values="#0088cc;#00f5ff;#8800dd;#0088cc" dur="4s" repeatCount="indefinite"/>
+          </stop>
+          <stop offset="50%" stop-color="#8800dd">
+            <animate attributeName="stop-color" values="#8800dd;#ff00aa;#00f5ff;#8800dd" dur="4s" repeatCount="indefinite"/>
+          </stop>
+          <stop offset="75%" stop-color="#ff00aa">
+            <animate attributeName="stop-color" values="#ff00aa;#0088cc;#ff00aa;#ff00aa" dur="4s" repeatCount="indefinite"/>
+          </stop>
+          <stop offset="100%" stop-color="#00f5ff">
+            <animate attributeName="stop-color" values="#00f5ff;#ff00aa;#0088cc;#00f5ff" dur="4s" repeatCount="indefinite"/>
+          </stop>
+        </linearGradient>
+        <filter id="ldVisorGlow" x="-20%" y="-50%" width="140%" height="200%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur"/>
+          <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+        </filter>
+        <linearGradient id="ldChromeReflect" x1="0" y1="0" x2="0.7" y2="1">
+          <stop offset="0%" stop-color="#ffe88a" stop-opacity="0"/>
+          <stop offset="30%" stop-color="#ffe88a" stop-opacity="0"/>
+          <stop offset="46%" stop-color="#ffd700" stop-opacity="0.2"/>
+          <stop offset="49%" stop-color="#fffbe6" stop-opacity="0.45"/>
+          <stop offset="51%" stop-color="#fffbe6" stop-opacity="0.45"/>
+          <stop offset="54%" stop-color="#ffd700" stop-opacity="0.2"/>
+          <stop offset="70%" stop-color="#ffe88a" stop-opacity="0"/>
+          <stop offset="100%" stop-color="#ffe88a" stop-opacity="0"/>
+        </linearGradient>
+        <radialGradient id="ldEarGrad" cx="0.4" cy="0.35" r="0.55">
+          <stop offset="0%" stop-color="#ddb620"/>
+          <stop offset="40%" stop-color="#9a7a00"/>
+          <stop offset="100%" stop-color="#4a3a00"/>
+        </radialGradient>
+        <clipPath id="ldHelmetClip">
+          <path d="M 55,130 C 55,48 95,12 160,12 C 225,12 265,48 265,130 L 265,165 C 265,195 258,215 245,232 L 230,250 C 220,260 200,270 160,270 C 120,270 100,260 90,250 L 75,232 C 62,215 55,195 55,165 Z"/>
+        </clipPath>
+      </defs>
+      <!-- Gold aura -->
+      <ellipse cx="160" cy="150" rx="130" ry="125" fill="#ffd700" opacity="0.04">
+        <animate attributeName="opacity" values="0.02;0.06;0.02" dur="3s" repeatCount="indefinite"/>
+      </ellipse>
+      <!-- Helmet shell -->
+      <path d="M 55,130 C 55,48 95,12 160,12 C 225,12 265,48 265,130 L 265,165 C 265,195 258,215 245,232 L 230,250 C 220,260 200,270 160,270 C 120,270 100,260 90,250 L 75,232 C 62,215 55,195 55,165 Z" fill="url(#ldDomeGrad)" stroke="rgba(215,180,0,0.45)" stroke-width="1.5"/>
+      <!-- Chrome reflection -->
+      <g clip-path="url(#ldHelmetClip)">
+        <rect x="0" y="0" width="320" height="300" fill="url(#ldChromeReflect)">
+          <animateTransform attributeName="transform" type="translate" values="-30,-15;30,15;-30,-15" dur="6s" repeatCount="indefinite"/>
+        </rect>
+        <ellipse cx="140" cy="30" rx="55" ry="10" fill="#ffd700" opacity="0.06"/>
+      </g>
+      <!-- Visor (dark) -->
+      <path d="M 70,90 C 70,78 82,68 105,62 C 125,56 142,54 160,54 C 178,54 195,56 215,62 C 238,68 250,78 250,90 L 250,198 C 250,216 238,230 215,238 C 195,246 178,248 160,248 C 142,248 125,246 105,238 C 82,230 70,216 70,198 Z" fill="#050510" stroke="rgba(60,60,80,0.5)" stroke-width="1"/>
+      <path d="M 74,92 C 74,80 86,72 106,66 C 126,60 143,58 160,58 C 177,58 194,60 214,66 C 234,72 246,80 246,92 L 246,196 C 246,212 234,226 214,234 C 194,242 177,244 160,244 C 143,244 126,242 106,234 C 86,226 74,212 74,196 Z" fill="#020208"/>
+      <!-- Visor glow (powered on by JS) -->
+      <path class="loader-visor-glow" id="loaderVisor" d="M 78,94 C 78,82 90,74 108,68 C 128,62 144,60 160,60 C 176,60 192,62 212,68 C 230,74 242,82 242,94 L 242,194 C 242,210 230,222 212,230 C 192,238 176,240 160,240 C 144,240 128,238 108,230 C 90,222 78,210 78,194 Z" fill="url(#ldVisorFill)" filter="url(#ldVisorGlow)"/>
+      <!-- Visor cyan edge (powered on by JS) -->
+      <path class="loader-visor-edge" id="loaderVisorEdge" d="M 72,91 C 72,79 84,69 106,63 C 126,57 143,55 160,55 C 177,55 194,57 214,63 C 236,69 248,79 248,91 L 248,197 C 248,215 236,228 214,236 C 194,244 177,246 160,246 C 143,246 126,244 106,236 C 84,228 72,215 72,197 Z" fill="none" stroke="#00f5ff" stroke-width="0.5"/>
+      <!-- Ear discs -->
+      <circle cx="58" cy="135" r="20" fill="url(#ldEarGrad)" stroke="rgba(160,130,50,0.5)" stroke-width="1.2"/>
+      <circle cx="58" cy="135" r="14" fill="none" stroke="rgba(200,170,60,0.15)" stroke-width="0.8"/>
+      <circle cx="58" cy="135" r="3" fill="#3d3012"/>
+      <circle cx="262" cy="135" r="20" fill="url(#ldEarGrad)" stroke="rgba(160,130,50,0.5)" stroke-width="1.2"/>
+      <circle cx="262" cy="135" r="14" fill="none" stroke="rgba(200,170,60,0.15)" stroke-width="0.8"/>
+      <circle cx="262" cy="135" r="3" fill="#3d3012"/>
+    </svg>
   </div>
   <div class="loader-status" id="loaderStatus">
     <div class="line" id="line1">> INITIALIZING ROBOT SYSTEMS...</div>
@@ -1814,7 +1871,26 @@ section { position: relative; z-index: 1; padding: 120px 20px; }
 
 <script>
 // ===== DRAMATIC LOADER SEQUENCE =====
+// Spawn floating particles behind loader helmet
+function spawnLoaderParticles() {
+  const container = document.getElementById('loaderParticles');
+  if (!container) return;
+  const colors = ['#00f5ff', '#ff00aa', '#ffd700', '#00f5ff', '#ffd700'];
+  for (let i = 0; i < 20; i++) {
+    const p = document.createElement('div');
+    p.classList.add('particle');
+    const x = Math.random() * 100;
+    const delay = Math.random() * 3;
+    const dur = 2 + Math.random() * 2;
+    const size = 1 + Math.random() * 2;
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    p.style.cssText = `left:${x}%;bottom:0;width:${size}px;height:${size}px;background:${color};box-shadow:0 0 ${size*2}px ${color};animation-delay:${delay}s;animation-duration:${dur}s;`;
+    container.appendChild(p);
+  }
+}
+
 const loaderTimeline = [
+  { time: 100,  action: () => { spawnLoaderParticles(); }},
   { time: 200,  action: () => { document.getElementById('line1').classList.add('visible'); setProgress(10); }},
   { time: 600,  action: () => setProgress(25) },
   { time: 900,  action: () => {
@@ -1827,9 +1903,10 @@ const loaderTimeline = [
     setProgress(50);
   }},
   { time: 1600, action: () => {
-    // Visor fully on — gradient slides
+    // Visor fully on
     document.getElementById('loaderVisor').classList.remove('flicker');
     document.getElementById('loaderVisor').classList.add('on');
+    document.getElementById('loaderVisorEdge').classList.add('on');
     document.getElementById('line3').classList.add('visible');
     setProgress(70);
   }},
